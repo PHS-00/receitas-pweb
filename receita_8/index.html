@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Receita 8 - Encadeamento de Promises</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d35400;
+            color: white;
+        }
+
+        .status {
+            font-style: italic;
+            color: #555;
+        }
+
+        .erro {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav>
+        <a href="../index.html">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </a>
+    </nav>
+    <h1>Requisições Assíncronas com Promise / .then() / .catch()</h1>
+    <button id="btnFetch">Carregar Mostrinhos (Promise)</button>
+    <div id="resultadoDiv" style="margin-top:15px;">Aguardando requisição...</div>
+    <script>
+        const renderizar = (lista) => {
+            const colunas = ["id", "name", "image", "stats", "resistance"];
+            const headers = colunas.map(col => `<th>${col.toUpperCase()}</th>`).join("");
+
+            // ==================== FORMATAÇÃO DOS VALORES(Pois algum são imagem e outros são objects arrays) ==================== 
+            const formatarValor = (valor) => { 
+                if( typeof valor === "string" && ( valor.startsWith("http://") || valor.startsWith("https://") ) ) { 
+                    return ` <img src="${valor}" alt="Imagem" class="imagem-api" > `; 
+                }if(Array.isArray(valor)) {
+                    return valor.map(item => { 
+                        if ( typeof item === "object" && item !== null ) {
+                            const imagem = item.image ? ` <img src="${item.image}" alt="${item.type || ""}" class="icone-api" > ` : "";
+                            const nome = item.type ? item.type.replace(" (Element)", "") : ""; return ` <div class="item-api"> ${imagem} <span>${nome}</span> </div> `;
+                        } 
+                        return `<span>${item}</span>`; }).join("");
+                }if( typeof valor === "object" && valor !== null ) {
+                    return Object.entries(valor).map(([chave, valor]) => ` <strong>${chave}:</strong> ${valor} `).join("<br>");
+                }else{ 
+                    return valor ?? "-"; 
+                }
+            };
+
+            const linhas = lista.map(usr => {
+                const celulas = colunas.map(col => `<td>${formatarValor(usr[col])}</td>`).join(""); 
+                return `<tr>${celulas}</tr>`;
+            }).join("");
+
+            document.getElementById("resultadoDiv").innerHTML = `
+                                                                <table>
+                                                                <thead><tr>${headers}</tr></thead>
+                                                                <tbody>${linhas}</tbody>
+                                                                </table>
+                                                                `;
+        };
+
+        const carregarComPromise = () => {
+            document.getElementById("resultadoDiv").innerHTML = "<p class='status' >Fazendo requisição HTTP via Promise...</p > ";
+            // Encadeamento limpo de Promessas (.then / .catch)
+            fetch("https://api.sampleapis.com/monstersanctuary/monsters")
+                .then(resposta => {
+                    if (!resposta.ok) {
+                        throw new Error(`Erro na resposta da rede: ${resposta.status}`);
+                    }
+                    return resposta.json(); // Retorna uma nova Promise com os dados JSON
+                })
+
+                .then(dadosJson => {
+                    renderizar(dadosJson); // Executado quando os dados são parseados 
+                })
+
+                .catch(erro => {
+                        document.getElementById("resultadoDiv").innerHTML = `<p class='erro'>Erro na Promessa: ${erro.message}</p>`;
+                });
+        };
+
+        document.getElementById("btnFetch").addEventListener("click", carregarComPromise);
+    </script>
+</body>
+</html>
