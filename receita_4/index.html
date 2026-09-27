@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Receita 4 - Arrays, map() e join()</title>
+    <style>
+        .cerveja-card {
+            background-color: #e8f4f8;
+            border-left: 5px solid #2980b9;
+            padding: 8px 12px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 300px;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+    </style>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav>
+        <a href="../index.html">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </a>
+    </nav>
+    
+    <h1>Gestão de Cervejas (Arrays JS)</h1>
+    <button id="btnDivs">Exibir em Divs</button>
+    <button id="btnTabela">Exibir em Tabela</button>
+    <button id="btnOrdenar">Ordenar Cervejas</button>
+    <button id="btnEmbaralhar">Embaralhar Cervejas</button>
+    <div id="meuamor" style="margin-top: 15px;">Aguardando ação...</div>
+    <script>
+        let cervejas = ["Guinness", "Desperados", "Becks", "Heineken", "Corona"];
+        function transformarEmDiv(item) {
+            return `<div class="cerveja-card">${item}</div>`;
+        }
+        function exibirDivs() {
+            let divHtml = cervejas.map(transformarEmDiv).join("");
+            document.getElementById("meuamor").innerHTML = divHtml;
+        }
+        function exibirTabela() {
+            let linhas = cervejas.map(item => `<tr><td>${item}</td></tr>`).join(""); let tabela =
+                `<table><thead><tr><th>Cerveja</th></tr></thead><tbody>${linhas}</tbody></table>`;
+            document.getElementById("meuamor").innerHTML = tabela;
+        }
+        function ordenarCervejas() {
+            cervejas.sort();
+            exibirTabela();
+        }
+        function embaralharCervejas() {
+            cervejas.sort(() => Math.random() - 0.5);
+            exibirTabela();
+        }
+        document.getElementById("btnDivs").onclick = exibirDivs;
+        document.getElementById("btnTabela").onclick = exibirTabela;
+        document.getElementById("btnOrdenar").onclick = ordenarCervejas;
+        document.getElementById("btnEmbaralhar").onclick = embaralharCervejas;
+    </script>
+</body>
+</html>
