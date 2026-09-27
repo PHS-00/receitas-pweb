@@ -1,0 +1,352 @@
+/* ==================== VARIÁVEIS ==================== */
+
+:root {
+    --bg-primary: #0d0b12;
+    --bg-secondary: #14111b;
+    --bg-card: #18151f;
+
+    --border: #2a2535;
+
+    --text-primary: #f5f3f7;
+    --text-secondary: #a9a3b3;
+
+    --purple: #8b5cf6;
+    --purple-hover: #a78bfa;
+    --purple-dark: #6d3fe8;
+}
+
+
+/* ==================== GERAL ==================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+.border-bottom,
+.border-top {
+    border-color: var(--border) !important;
+}
+
+
+/* ==================== NAVBAR ==================== */
+
+.navbar {
+    background: rgba(13, 11, 18, 0.92);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+.navbar-brand i {
+    color: var(--purple);
+    margin-right: 6px;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--purple-hover) !important;
+}
+
+.navbar-toggler {
+    box-shadow: none !important;
+}
+
+/* Ícone do menu mobile */
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+
+/* ==================== DROPDOWN ==================== */
+
+.dropdown-menu {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.dropdown-item {
+    color: var(--text-secondary);
+    border-radius: 7px;
+    padding: 9px 12px;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    color: var(--text-primary);
+    background: rgba(139, 92, 246, 0.12);
+}
+
+/* Dropdown ao passar o mouse */
+@media (min-width: 992px) {
+
+    .navbar .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+        animation: dropdown-fade 0.15s ease;
+    }
+
+}
+
+@keyframes dropdown-fade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================== CABEÇALHO ==================== */
+
+header {
+    background:
+        radial-gradient(
+            circle at top center,
+            rgba(139, 92, 246, 0.10),
+            transparent 45%
+        );
+}
+
+header h1 {
+    color: var(--text-primary);
+}
+
+header p {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ==================== BADGES ==================== */
+
+.text-bg-primary {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+    color: var(--purple-hover) !important;
+
+    border: 1px solid rgba(139, 92, 246, 0.3);
+
+    padding: 8px 14px;
+    margin: 3px;
+}
+
+
+/* ==================== RECEITAS ==================== */
+
+#receitas h2,
+#apis h2 {
+    color: var(--text-primary);
+}
+
+#receitas .card {
+    background: var(--bg-card) !important;
+
+    border: 1px solid var(--border) !important;
+    border-radius: 14px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+#receitas .card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(139, 92, 246, 0.55) !important;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(139, 92, 246, 0.08);
+}
+
+
+/* ==================== ÍCONE DOS CARDS ==================== */
+
+.icon-box {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(139, 92, 246, 0.10);
+    border: 1px solid rgba(139, 92, 246, 0.20);
+
+    color: var(--purple-hover);
+
+    font-size: 1.3rem;
+}
+
+
+/* ==================== TEXTO DOS CARDS ==================== */
+
+.card-title,
+.card h3 {
+    color: var(--text-primary);
+}
+
+.card-text {
+    color: var(--text-secondary) !important;
+}
+
+
+/* ==================== BOTÕES ==================== */
+
+.btn-outline-purple {
+    color: var(--purple-hover);
+    border: 1px solid rgba(139, 92, 246, 0.45);
+
+    background: transparent;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.btn-outline-purple:hover {
+    color: #ffffff;
+
+    background: var(--purple-dark);
+    border-color: var(--purple);
+
+    transform: translateY(-1px);
+}
+
+
+/* ==================== API ==================== */
+
+#apis .card {
+    background: var(--bg-card) !important;
+
+    border-color: var(--border) !important;
+    border-radius: 14px;
+}
+
+#apis .bi-globe2 {
+    color: var(--purple-hover) !important;
+}
+
+#apis a {
+    color: var(--purple-hover);
+    text-decoration: none;
+}
+
+#apis a:hover {
+    color: #ffffff;
+}
+
+#apis .link-secondary {
+    color: var(--text-secondary) !important;
+}
+
+
+/* ==================== ESTRUTURA / CÓDIGO ==================== */
+
+.tree-code {
+    background: #0a080e;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    padding: 20px;
+
+    overflow-x: auto;
+
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
+.tree-code pre {
+    margin: 0;
+}
+
+.tree-code code {
+    color: #c9c3d4;
+    font-family: monospace;
+}
+
+
+/* ==================== FOOTER ==================== */
+
+footer {
+    background: #0a080e;
+}
+
+footer .fw-bold {
+    color: var(--text-primary);
+}
+
+footer p {
+    color: var(--text-secondary) !important;
+}
+
+
+/* ==================== ÍCONES DO FOOTER ==================== */
+
+footer a {
+    color: var(--text-secondary) !important;
+
+    display: inline-flex;
+
+    margin-left: 14px;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+footer a:hover {
+    color: var(--purple-hover) !important;
+    transform: translateY(-2px);
+}
+
+
+/* ==================== RESPONSIVIDADE ==================== */
+
+@media (max-width: 767px) {
+
+    header {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    footer a {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+}
