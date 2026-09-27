@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Receita 7 - Consumo de API via fetch() e async/await</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .erro {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav>
+        <a href="../index.html">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </a>
+    </nav>
+    <h1>Consumo de API Externa Monster-Sanctuary</h1>
+    <button id="btnCarregar">Buscar Dados da API</button>
+    <div id="conteudoDiv">Clique no botão para realizar a requisição assíncrona.</div>
+    <script>
+        const renderizarTabela = (dados, containerId = "conteudoDiv") => {
+            if (!dados || dados.length === 0) {
+                document.getElementById(containerId).innerHTML = "<p>Nenhum dado retornado.</p > ";
+                return;
+            }
+            const chaves = Object.keys(dados[0]).slice(0, 5); // Pega até 5 primeiras propriedades
+            
+            const ths = chaves.map(k => `<th>${k.toUpperCase()}</th>`).join("");
+
+            // ==================== FORMATAÇÃO DOS VALORES(Pois algum são imagem e outros são objects arrays) ==================== 
+            const formatarValor = (valor) => { 
+                if( typeof valor === "string" && ( valor.startsWith("http://") || valor.startsWith("https://") ) ) { 
+                    return ` <img src="${valor}" alt="Imagem" class="imagem-api" > `; 
+                }if(Array.isArray(valor)) {
+                    return valor.map(item => { 
+                        if ( typeof item === "object" && item !== null ) {
+                            const imagem = item.image ? ` <img src="${item.image}" alt="${item.type || ""}" class="icone-api" > ` : "";
+                            const nome = item.type ? item.type.replace(" (Element)", "") : ""; return ` <div class="item-api"> ${imagem} <span>${nome}</span> </div> `;
+                        } 
+                        return `<span>${item}</span>`; }).join("");
+                }if( typeof valor === "object" && valor !== null ) {
+                    return Object.entries(valor).map(([chave, valor]) => ` <strong>${chave}:</strong> ${valor} `).join("<br>");
+                }else{ 
+                    return valor ?? "-"; 
+                }
+            };
+
+            const trs = dados.map(item => {
+                const tds = chaves.map(k => `<td>${formatarValor(item[k])}</td>`).join("");
+                return `<tr>${tds}</tr>`;
+            }).join("");
+
+            document.getElementById(containerId).innerHTML = `
+                                                            <table>
+                                                            <thead><tr>${ths}</tr></thead>
+                                                            <tbody>${trs}</tbody>
+                                                            </table>
+                                                            `;
+        };
+
+        const carregarDadosAPI = async () => {
+            const container = document.getElementById("conteudoDiv");
+            container.innerHTML = "Carregando dados da API...";
+
+            try {
+                // Utilizando a API funcional monster-sanctuary
+                const res = await fetch("https://api.sampleapis.com/monstersanctuary/monsters"); if (!res.ok) throw new Error(`Status HTTP: ${res.status}`);
+
+                const dados = await res.json();
+
+                renderizarTabela(dados);
+            } catch (err) {
+                container.innerHTML = `<p class="erro">Falha na requisição: ${err.message}</p>`;
+            }
+        };
+        document.getElementById("btnCarregar").addEventListener("click", carregarDadosAPI);
+    </script>
+</body>
+</html>
